@@ -361,6 +361,93 @@
             z-index: 1;
         }
 
+        /* ============ IMAGE MODAL ============ */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(59, 47, 32, 0.85);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .image-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content-wrap {
+            position: relative;
+            max-width: 85%;
+            max-height: 85%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gold);
+            background: var(--marble);
+            padding: 10px;
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .image-modal.active .modal-content-wrap {
+            transform: scale(1);
+        }
+
+        .modal-image {
+            display: block;
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            color: var(--gold-pale);
+            font-size: 35px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: white;
+        }
+
+        #page-2 img {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #page-2 img:hover {
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 768px) {
+            .modal-content-wrap {
+                max-width: 95%;
+                max-height: 90%;
+                padding: 5px;
+            }
+            .modal-close {
+                top: -45px;
+                right: 0;
+            }
+        }
+
         @keyframes p2Reveal {
             from { opacity: 0; }
             to   { opacity: 1; }
@@ -2005,6 +2092,14 @@
 
 
 
+<!-- IMAGE MODAL -->
+<div id="imageModal" class="image-modal">
+    <div class="modal-content-wrap">
+        <span class="modal-close">&times;</span>
+        <img class="modal-image" id="modalImg">
+    </div>
+</div>
+
 <!-- ============ PAGE 1: SAVE THE DATE ============ -->
 <div id="page-1">
     <div class="bg-photo"></div>
@@ -2731,6 +2826,47 @@
             requestAnimationFrame(animate);
         }
         animate();
+    })();
+
+    // Image Modal Functionality for Page 2
+    (function() {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const closeBtn = document.querySelector('.modal-close');
+        const page2 = document.getElementById('page-2');
+
+        if (!modal || !modalImg || !page2) return;
+
+        // Delegate click event to images within page-2
+        page2.addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG') {
+                modal.classList.add('active');
+                modalImg.src = e.target.src;
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            }
+        });
+
+        // Close modal functions
+        const closeModal = () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+        
+        // Close on click outside the image
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
     })();
 
 </script>
