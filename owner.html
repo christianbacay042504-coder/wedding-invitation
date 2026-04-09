@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>James & Marjory — Wedding Invitation</title>
+    <title>James & Marjory — Wedding Invitation [Owner]</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -327,6 +327,16 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        .reserve-seat-owner-badge {
+            margin-top: 14px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.55rem;
+            letter-spacing: 4px;
+            color: var(--gold);
+            opacity: 0.7;
+            text-transform: uppercase;
         }
 
         /* Footer enhanced glow */
@@ -3285,10 +3295,11 @@
             <div class="reserve-seat-inner">
                 <div class="reserve-seat-text">
                     <span>WE&nbsp;RESERVE</span>
-                    <span class="reserve-seat-number" id="reserve-seat-display">2</span>
+                    <input type="number" id="reserve-seat-input" class="reserve-seat-input" value="2" min="1" max="99">
                     <span class="reserve-seat-label">&nbsp;SEAT/S&nbsp;</span>
                     <span>FOR&nbsp;YOU</span>
                 </div>
+                <div class="reserve-seat-owner-badge">✦ Owner Edit Mode</div>
                 <div class="reserve-seat-rule">
                     <span></span>
                     <div class="reserve-seat-rule-diamond"></div>
@@ -3462,36 +3473,36 @@
             animate();
         })();
 
-        // Read-Only Seat Display — syncs from owner via localStorage
+        // Owner Seat Editor — writes to localStorage so original syncs
         (function () {
-            const display = document.getElementById('reserve-seat-display');
-            let lastValue = null;
+            const seatInput = document.getElementById('reserve-seat-input');
 
-            function syncSeat() {
+            function loadSeat() {
                 const saved = localStorage.getItem('reservedSeats');
-                const val = saved || '2';
-                if (val !== lastValue) {
-                    lastValue = val;
-                    display.textContent = val;
-                    // Pulse animation on update
-                    display.style.transition = 'opacity 0.3s';
-                    display.style.opacity = '0.3';
-                    setTimeout(() => { display.style.opacity = '1'; }, 300);
-                }
+                if (saved) seatInput.value = saved;
             }
 
-            // Initial load
-            syncSeat();
+            function saveSeat(val) {
+                localStorage.setItem('reservedSeats', String(val));
+                // Trigger storage event for other tabs
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'reservedSeats',
+                    newValue: String(val)
+                }));
+            }
 
-            // Listen for storage changes (cross-tab sync)
-            window.addEventListener('storage', function (e) {
-                if (e.key === 'reservedSeats') {
-                    syncSeat();
-                }
+            loadSeat();
+
+            seatInput.addEventListener('input', function () {
+                const value = parseInt(this.value);
+                if (!isNaN(value) && value >= 1) saveSeat(value);
             });
 
-            // Poll for changes every 3 seconds (fallback)
-            setInterval(syncSeat, 3000);
+            seatInput.addEventListener('blur', function () {
+                let value = parseInt(this.value);
+                if (isNaN(value) || value < 1) { this.value = 1; value = 1; }
+                saveSeat(value);
+            });
         })();
 
         // Image Modal Functionality for Page 2
@@ -3536,20 +3547,19 @@
         })();
 
         /* ============================================================
-           HIDDEN OWNER ACCESS — not visible to guests
-           Desktop : type  J M  (j then m within 1.5 s)
-           Mobile  : two-finger swipe UP anywhere on screen
+           OWNER → GUEST navigation (reverse shortcut)
+           Desktop : type  M J  (m then j within 1.5 s)
+           Mobile  : two-finger swipe DOWN
            ============================================================ */
         (function () {
-            var OWNER_URL = 'owner.html';
+            var GUEST_URL = 'index.html';
 
-            /* ── DESKTOP: silent key sequence "J → M" ── */
+            /* ── DESKTOP: key sequence "M → J" ── */
             var seq = [];
-            var SEQUENCE = ['j', 'm'];
+            var SEQUENCE = ['m', 'j'];
             var seqTimer = null;
 
             document.addEventListener('keydown', function (e) {
-                // Never fire while typing in any input / textarea
                 var tag = (document.activeElement || {}).tagName;
                 if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
@@ -3561,11 +3571,11 @@
 
                 if (seq.join('') === SEQUENCE.join('')) {
                     seq = [];
-                    window.location.href = OWNER_URL;
+                    window.location.href = GUEST_URL;
                 }
             }, true);
 
-            /* ── MOBILE: two-finger swipe UP (min 60 px, both touches) ── */
+            /* ── MOBILE: two-finger swipe DOWN ── */
             var t1 = null, t2 = null;
 
             document.addEventListener('touchstart', function (e) {
@@ -3577,32 +3587,25 @@
 
             document.addEventListener('touchend', function (e) {
                 if (t1 === null || t2 === null) return;
-
-                // Use changedTouches to get final positions
                 var changed = e.changedTouches;
                 if (changed.length < 1) { t1 = t2 = null; return; }
 
-                // Reconstruct end Y for both touch points
                 var endY0 = changed[0] ? changed[0].clientY : null;
                 var endY1 = changed[1] ? changed[1].clientY : endY0;
-
                 if (endY0 === null) { t1 = t2 = null; return; }
 
-                var dy0 = t1.startY - endY0;   // positive = moved up
-                var dy1 = t2.startY - endY1;
-
-                var MIN_SWIPE = 60; // px
+                var dy0 = endY0 - t1.startY;   // positive = moved DOWN
+                var dy1 = endY1 - t2.startY;
+                var MIN_SWIPE = 60;
 
                 if (dy0 > MIN_SWIPE && dy1 > MIN_SWIPE) {
                     t1 = t2 = null;
-                    window.location.href = OWNER_URL;
+                    window.location.href = GUEST_URL;
                     return;
                 }
-
                 t1 = t2 = null;
             }, { passive: true });
 
-            // Clear state if touches are cancelled
             document.addEventListener('touchcancel', function () {
                 t1 = t2 = null;
             }, { passive: true });
