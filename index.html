@@ -1944,6 +1944,96 @@
             transform: rotate(45deg);
         }
 
+        /* ============ GIFT GUIDE ============ */
+        .gift-guide-section {
+            text-align: center;
+            padding: 70px 24px 80px;
+            position: relative;
+            background: linear-gradient(to bottom, var(--marble-dark), var(--marble));
+        }
+
+        .gift-guide-inner {
+            display: inline-block;
+            max-width: 680px;
+            width: 100%;
+            position: relative;
+            padding: 52px 60px;
+            border: 1px solid rgba(181, 149, 106, 0.4);
+            background: rgba(242, 237, 226, 0.55);
+            backdrop-filter: blur(6px);
+        }
+
+        .gift-guide-inner::before,
+        .gift-guide-inner::after {
+            content: '';
+            position: absolute;
+            width: calc(100% + 14px);
+            height: calc(100% + 14px);
+            top: -7px;
+            left: -7px;
+            border: 1px solid rgba(181, 149, 106, 0.18);
+            pointer-events: none;
+        }
+
+        .gift-guide-title {
+            font-family: 'Tangerine', cursive;
+            font-size: clamp(3rem, 8vw, 4.5rem);
+            font-weight: 700;
+            color: var(--gold-dark);
+            line-height: 1;
+            margin-bottom: 24px;
+            text-shadow: 0 2px 20px var(--shadow-gold);
+        }
+
+        .gift-guide-text {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(0.65rem, 2vw, 0.8rem);
+            letter-spacing: 2px;
+            color: var(--ink);
+            line-height: 2.1;
+            text-transform: uppercase;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .gift-guide-text strong {
+            font-weight: 700;
+            color: var(--gold-dark);
+            letter-spacing: 3px;
+        }
+
+        .gift-guide-rule {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 28px auto 0;
+            max-width: 260px;
+        }
+
+        .gift-guide-rule span {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(181, 149, 106, 0.5));
+        }
+
+        .gift-guide-rule span:last-child {
+            background: linear-gradient(to left, transparent, rgba(181, 149, 106, 0.5));
+        }
+
+        .gift-guide-diamond {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 700px) {
+            .gift-guide-inner {
+                padding: 36px 28px;
+            }
+        }
+
         /* ============ SCROLL REVEAL ============ */
         .reveal {
             opacity: 0;
@@ -3073,7 +3163,6 @@
                     Pr. Richard D. Caraig &nbsp;·&nbsp; Mrs. Teresita P. Caraig<br>
                     Mr. Jared B. Danuco &nbsp;·&nbsp; Mrs. Gemma M. Libico<br>
                     Mr. Sonny P. Rosal &nbsp;·&nbsp; Mrs. Aurora C. Rosal<br>
-                    Mr. Dione G. Donaire<br>
                     Mrs. Lelibeth O. Bag-ao<br>
                     Mrs. Lota DG. Gepiga<br>
                     Mrs. Susan J. Ramos<br>
@@ -3279,6 +3368,23 @@
             </div>
 
         </div><!-- end page-wrapper -->
+
+        <!-- GIFT GUIDE SECTION -->
+        <div class="gift-guide-section reveal">
+            <div class="gift-guide-inner">
+                <div class="gift-guide-title">Gift Guide</div>
+                <p class="gift-guide-text">
+                    With all that we have we are truly blessed. Your presence and prayer are that we request, but if you
+                    are thinking of giving a gift, to help us on our way a <strong>monetary</strong> gift would be
+                    wonderful, or if you prefer to purchase a gift, feel free to surprise us on your own way.
+                </p>
+                <div class="gift-guide-rule">
+                    <span></span>
+                    <div class="gift-guide-diamond"></div>
+                    <span></span>
+                </div>
+            </div>
+        </div>
 
         <!-- RESERVE SEAT SECTION -->
         <div class="reserve-seat-section reveal">
