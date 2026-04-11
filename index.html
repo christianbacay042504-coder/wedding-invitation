@@ -403,7 +403,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('image1.jpg');
+            background-image: url('image1.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -1007,6 +1007,108 @@
             font-size: 1.2rem;
         }
 
+        /* ============ PLAYLIST ACCORDION ============ */
+        .playlist-wrap {
+            max-width: 540px;
+            margin: 10px auto 0;
+            position: relative;
+        }
+
+        .playlist-wrap::before {
+            content: '';
+            position: absolute;
+            inset: -7px;
+            border: 1px solid rgba(181, 149, 106, 0.13);
+            pointer-events: none;
+        }
+
+        .playlist-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 13px 18px;
+            border: 1px solid rgba(181, 149, 106, 0.38);
+            background: rgba(250, 246, 238, 0.85);
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.25s;
+        }
+
+        .playlist-header:hover {
+            background: var(--gold-pale);
+        }
+
+        .playlist-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .playlist-music-icon {
+            color: var(--gold);
+            font-size: 1rem;
+        }
+
+        .playlist-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.58rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--ink-light);
+        }
+
+        .playlist-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .playlist-tag {
+            font-family: 'Tangerine', cursive;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold-dark);
+            line-height: 1;
+        }
+
+        .playlist-arrow {
+            color: var(--gold);
+            font-size: 0.7rem;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
+
+        .playlist-arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .playlist-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 1px solid rgba(181, 149, 106, 0.3);
+            border-right: 1px solid rgba(181, 149, 106, 0.3);
+        }
+
+        .playlist-body.open {
+            max-height: 1400px;
+            border-bottom: 1px solid rgba(181, 149, 106, 0.3);
+        }
+
+        .playlist-track {
+            border-top: 1px solid rgba(181, 149, 106, 0.15);
+            padding: 3px;
+            background: rgba(250, 246, 238, 0.5);
+        }
+
+        .playlist-track:first-child {
+            border-top: none;
+        }
+
+        .playlist-track iframe {
+            display: block;
+        }
+
         /* ============ DETAILS OF THE DAY ============ */
         .dotd-section {
             margin-bottom: 80px;
@@ -1321,68 +1423,160 @@
             text-align: center;
         }
 
-        .program-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0;
-            max-width: 660px;
+        /* ── Full-width ceremony table ── */
+        .ceremony-table {
+            width: 100%;
+            max-width: 820px;
             margin: 40px auto 0;
-            border: 1px solid rgba(181, 149, 106, 0.3);
+            border-collapse: collapse;
             background: #FAF7F2;
+            border: 1px solid rgba(181, 149, 106, 0.35);
+            font-family: 'Cormorant Garamond', serif;
         }
 
-        .program-col {
-            padding: 0;
+        .ceremony-table thead tr {
+            background: var(--marble-dark);
         }
 
-        .program-col:first-child {
-            border-right: 1px solid rgba(181, 149, 106, 0.2);
-        }
-
-        .program-col-head {
+        .ceremony-table thead th {
             font-family: 'Cinzel', serif;
-            font-size: 0.6rem;
+            font-size: 0.58rem;
             letter-spacing: 5px;
             color: var(--gold);
+            text-transform: uppercase;
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(181, 149, 106, 0.35);
+            border-right: 1px solid rgba(181, 149, 106, 0.2);
             text-align: center;
-            padding: 20px;
-            border-bottom: 1px solid rgba(181, 149, 106, 0.2);
-            background: var(--marble);
         }
 
-        .program-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 24px;
-            border-bottom: 1px solid rgba(181, 149, 106, 0.1);
+        .ceremony-table thead th:last-child {
+            border-right: none;
+        }
+
+        .ceremony-table tbody tr {
+            border-bottom: 1px solid rgba(181, 149, 106, 0.12);
             transition: background 0.2s;
-            gap: 16px;
         }
 
-        .program-row:last-child {
+        .ceremony-table tbody tr:last-child {
             border-bottom: none;
         }
 
-        .program-row:hover {
+        .ceremony-table tbody tr:hover {
             background: var(--gold-pale);
         }
 
-        .program-time {
+        /* Section-header rows */
+        .ceremony-table .ct-section-row td {
+            background: var(--marble);
             font-family: 'Cinzel', serif;
-            font-size: 0.62rem;
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+            color: var(--gold-dark);
+            text-align: center;
+            padding: 12px 20px;
+            border-top: 1px solid rgba(181, 149, 106, 0.25);
+            border-bottom: 1px solid rgba(181, 149, 106, 0.25);
+        }
+
+        .ceremony-table td {
+            padding: 12px 18px;
+            border-right: 1px solid rgba(181, 149, 106, 0.12);
+            vertical-align: middle;
+        }
+
+        .ceremony-table td:last-child {
+            border-right: none;
+        }
+
+        .ct-time {
+            font-family: 'Cinzel', serif;
+            font-size: 0.6rem;
             letter-spacing: 2px;
             color: var(--gold-dark);
             white-space: nowrap;
-            flex-shrink: 0;
+            text-align: center;
+            width: 90px;
         }
 
-        .program-event {
-            font-family: 'Cormorant Garamond', serif;
+        .ct-event {
             font-size: 0.95rem;
             font-style: italic;
+            color: var(--ink);
+            line-height: 1.45;
+        }
+
+        .ct-event strong {
+            font-style: normal;
+            font-weight: 600;
+            display: block;
+            color: var(--ink);
+            font-size: 0.9rem;
+        }
+
+        .ct-event .ct-note {
+            font-size: 0.78rem;
             color: var(--ink-light);
-            text-align: right;
+            font-style: italic;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .ct-song {
+            font-size: 0.88rem;
+            font-style: italic;
+            color: var(--gold-dark);
+            text-align: center;
+            width: 160px;
+            line-height: 1.4;
+        }
+
+        .ct-song em {
+            font-style: normal;
+            font-weight: 600;
+            display: block;
+            font-size: 0.75rem;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+            .ceremony-table {
+                font-size: 0.85rem;
+            }
+
+            .ct-time {
+                font-size: 0.55rem;
+                width: 72px;
+            }
+
+            .ct-song {
+                font-size: 0.78rem;
+                width: 110px;
+            }
+
+            .ceremony-table thead th,
+            .ceremony-table td {
+                padding: 10px 10px;
+            }
+        }
+
+        /* keep old classes so nothing else breaks */
+        .program-grid {
+            display: none;
+        }
+
+        .program-col {
+            display: none;
+        }
+
+        .program-col-head,
+        .program-row,
+        .program-time,
+        .program-event {
+            display: none;
         }
 
         /* ============ ENTOURAGE ============ */
@@ -2889,14 +3083,75 @@
             <div class="music-section reveal">
                 <div class="section-heading">
                     <span class="section-overline">Our Melody</span>
-                    <div class="section-title-roman" style="font-size:1.4rem">Play Our Favourite Song</div>
+                    <div class="section-title-roman" style="font-size:1.4rem">Play Our Favourite Songs</div>
                 </div>
+
+                <!-- Featured / Hero Track -->
                 <div class="spotify-wrap">
                     <iframe style="border-radius:0; display:block;"
                         src="https://open.spotify.com/embed/track/3QUQhiADLGdEWnoXKPCKaE?utm_source=generator"
                         width="100%" height="152" frameBorder="0" allowfullscreen=""
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                         loading="lazy"></iframe>
+                </div>
+
+                <!-- Collapsible Playlist -->
+                <div class="playlist-wrap">
+                    <div class="playlist-header" onclick="togglePlaylist(this)" role="button" aria-expanded="false"
+                        tabindex="0">
+                        <div class="playlist-header-left">
+                            <span class="playlist-music-icon">♫</span>
+                            <span class="playlist-label">More Songs</span>
+                        </div>
+                        <div class="playlist-header-right">
+                            <span class="playlist-tag">6 more tracks</span>
+                            <span class="playlist-arrow">▾</span>
+                        </div>
+                    </div>
+                    <div class="playlist-body">
+                        <div class="playlist-track">
+                            <iframe
+                                src="https://open.spotify.com/embed/track/3JCGz3v0vAV8krFYjyBNjF?utm_source=generator"
+                                width="100%" height="80" frameBorder="0"
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                loading="lazy"></iframe>
+                        </div>
+                        <div class="playlist-track">
+                            <iframe
+                                src="https://open.spotify.com/embed/track/5899ooV3jsEOIx2fQEcTlg?utm_source=generator"
+                                width="100%" height="80" frameBorder="0"
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                loading="lazy"></iframe>
+                        </div>
+                        <div class="playlist-track">
+                            <iframe
+                                src="https://open.spotify.com/embed/track/4vncABVrYQTvxAfDQceUzb?utm_source=generator"
+                                width="100%" height="80" frameBorder="0"
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                loading="lazy"></iframe>
+                        </div>
+                        <div class="playlist-track">
+                            <iframe
+                                src="https://open.spotify.com/embed/track/06wSouvbUqrzir9NuVU18O?utm_source=generator"
+                                width="100%" height="80" frameBorder="0"
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                loading="lazy"></iframe>
+                        </div>
+                        <div class="playlist-track">
+                            <iframe
+                                src="https://open.spotify.com/embed/track/4YjjNHtEsTX6Af4mCTupT5?utm_source=generator"
+                                width="100%" height="80" frameBorder="0"
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                loading="lazy"></iframe>
+                        </div>
+                        <div class="playlist-track">
+                            <iframe
+                                src="https://open.spotify.com/embed/track/4WgViu9gw3qYOr3iF9OuLG?utm_source=generator"
+                                width="100%" height="80" frameBorder="0"
+                                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                loading="lazy"></iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -3043,54 +3298,257 @@
                     <span class="section-overline">Order of the Day</span>
                     <div class="section-title-roman">The Program</div>
                 </div>
-                <div class="program-grid">
-                    <div class="program-col">
-                        <div class="program-col-head">Ceremony &amp; Portraits</div>
-                        <div class="program-row">
-                            <span class="program-time">1:30 PM</span>
-                            <span class="program-event">Wedding Ceremony</span>
-                        </div>
-                        <div class="program-row">
-                            <span class="program-time">2:30 PM</span>
-                            <span class="program-event">Portraits</span>
-                        </div>
-                        <div class="program-row">
-                            <span class="program-time">3:00 PM</span>
-                            <span class="program-event">Cocktail Hour</span>
-                        </div>
-                        <div class="program-row">
-                            <span class="program-time">3:30 PM</span>
-                            <span class="program-event">Newlyweds' Entrance</span>
-                        </div>
-                        <div class="program-row">
-                            <span class="program-time">3:40 PM</span>
-                            <span class="program-event">Opening Prayer</span>
-                        </div>
-                    </div>
-                    <div class="program-col">
-                        <div class="program-col-head">Reception &amp; Celebration</div>
-                        <div class="program-row">
-                            <span class="program-time">4:00 PM</span>
-                            <span class="program-event">First Dance</span>
-                        </div>
-                        <div class="program-row">
-                            <span class="program-time">4:30 PM</span>
-                            <span class="program-event">Games</span>
-                        </div>
-                        <div class="program-row">
-                            <span class="program-time">5:00 PM</span>
-                            <span class="program-event">Dinner</span>
-                        </div>
-                        <div class="program-row">
-                            <span class="program-time">5:30 PM</span>
-                            <span class="program-event">Cake Cutting</span>
-                        </div>
-                        <div class="program-row">
-                            <span class="program-time">6:00 PM</span>
-                            <span class="program-event">End of Celebration</span>
-                        </div>
-                    </div>
-                </div>
+                <table class="ceremony-table">
+                    <thead>
+                        <tr>
+                            <th style="width:90px;">Time</th>
+                            <th>Ceremony Flow</th>
+                            <th style="width:165px;">Songs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <!-- PRELUDE -->
+                        <tr class="ct-section-row">
+                            <td colspan="3">✦ Prelude ✦</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:00–2:05</td>
+                            <td class="ct-event">
+                                <strong>Prelude</strong>
+                                Soft background music as guests arrive and are seated.<br>
+                                <span class="ct-note">Ushers guide guests to their seats.</span>
+                            </td>
+                            <td class="ct-song"><em>Instrumental</em></td>
+                        </tr>
+
+                        <!-- PROCESSIONAL -->
+                        <tr class="ct-section-row">
+                            <td colspan="3">✦ Processional ✦</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:05–2:10</td>
+                            <td class="ct-event">
+                                <strong>Entrance of the Entourage</strong>
+                                Parents, sponsors, bridesmaids, groomsmen
+                            </td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:10–2:15</td>
+                            <td class="ct-event">Pastor</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:15–2:20</td>
+                            <td class="ct-event">Groom with Parents</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:20–2:25</td>
+                            <td class="ct-event">Principal Sponsors (by partner)</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:25–2:30</td>
+                            <td class="ct-event">Candle Sponsors</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:30–2:35</td>
+                            <td class="ct-event">Veil Sponsors</td>
+                            <td class="ct-song">Goodness of God &amp; Oceans</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:35–2:40</td>
+                            <td class="ct-event">Cord Sponsors</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:40–2:45</td>
+                            <td class="ct-event">Maid of Honor &amp; Best Man</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:45–2:50</td>
+                            <td class="ct-event">Ring Bearer</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:50–2:55</td>
+                            <td class="ct-event">Bible Bearer</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">2:55–3:00</td>
+                            <td class="ct-event">Coin Bearer</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:00–3:05</td>
+                            <td class="ct-event">Flower Girls</td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:05–3:10</td>
+                            <td class="ct-event"><strong>The Bride</strong></td>
+                            <td class="ct-song">When God Made You</td>
+                        </tr>
+
+                        <!-- CEREMONY PROPER -->
+                        <tr class="ct-section-row">
+                            <td colspan="3">✦ Ceremony Proper ✦</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:10–3:13</td>
+                            <td class="ct-event"><strong>Crowd Worship</strong></td>
+                            <td class="ct-song">I Sing Praises / Ngalan Mo'y Itataas<br><span
+                                    style="font-size:0.75rem;color:var(--gold-dark);">2–3 mins</span></td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:13–3:15</td>
+                            <td class="ct-event"><strong>Opening Words from Officiating Minister</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:15–3:20</td>
+                            <td class="ct-event"><strong>Candle Sponsors — Lighting the Candles</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:20–3:25</td>
+                            <td class="ct-event"><strong>Opening Prayer</strong></td>
+                            <td class="ct-song">Purify My Heart</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:25–3:30</td>
+                            <td class="ct-event"><strong>Parents — Blessing &amp; Pledge of Support</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:30–3:35</td>
+                            <td class="ct-event"><strong>Reading &amp; Short Exhortation of the Minister</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:35–3:40</td>
+                            <td class="ct-event"><strong>Declaration of Intentions / I Do</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:40–3:45</td>
+                            <td class="ct-event"><strong>Presentation of Rings, Coin &amp; Bible</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:45–3:50</td>
+                            <td class="ct-event"><strong>Exchange of Rings &amp; Giving of Vows</strong></td>
+                            <td class="ct-song">He Has Chosen You for Me</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:50–3:55</td>
+                            <td class="ct-event"><strong>Giving of Arras / Aras</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">3:55–4:00</td>
+                            <td class="ct-event"><strong>Giving of the Bible</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+
+                        <!-- VEIL & CORD -->
+                        <tr class="ct-section-row">
+                            <td colspan="3">✦ Veil &amp; Cord Ceremony ✦</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:00–4:05</td>
+                            <td class="ct-event">
+                                <span class="ct-note">Minister gives short exhortation; veil &amp; cord ceremony
+                                    follows</span>
+                            </td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:05–4:10</td>
+                            <td class="ct-event"><strong>Pinning of Veil</strong></td>
+                            <td class="ct-song">He Knows</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:10–4:15</td>
+                            <td class="ct-event"><strong>Placing of Cord</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+
+                        <!-- SIGNING & SPECIAL NUMBER -->
+                        <tr class="ct-section-row">
+                            <td colspan="3">✦ Signing &amp; Special Number ✦</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:15–4:20</td>
+                            <td class="ct-event"><strong>Signing of Certificate</strong></td>
+                            <td class="ct-song">You Are by Ron Kenoly &amp; Captivate Us</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:25–4:30</td>
+                            <td class="ct-event"><strong>Prayer of Blessings to the Couple</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:30–4:35</td>
+                            <td class="ct-event"><strong>Removal of Cord &amp; Veil</strong></td>
+                            <td class="ct-song">Bless the Broken Road</td>
+                        </tr>
+
+                        <!-- UNITY CANDLE & CLOSING -->
+                        <tr class="ct-section-row">
+                            <td colspan="3">✦ Unity Candle &amp; Closing ✦</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:35–4:40</td>
+                            <td class="ct-event">
+                                <strong>Lighting the Unity Candle</strong>
+                                The couple lights the center candle using their individual candles.
+                            </td>
+                            <td class="ct-song">You Are My Answered Prayer</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:40–4:45</td>
+                            <td class="ct-event"><strong>Marriage Blessings, Thanks to Parents &amp; Closing
+                                    Prayer</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:45–4:50</td>
+                            <td class="ct-event"><strong>Pronouncement of Marriage &amp; Kiss the Bride</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:50–4:55</td>
+                            <td class="ct-event"><strong>Presentation of the Newlywed</strong></td>
+                            <td class="ct-song">Palagi</td>
+                        </tr>
+
+                        <!-- RECESSIONAL -->
+                        <tr class="ct-section-row">
+                            <td colspan="3">✦ Recessional &amp; Pictorial ✦</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">4:55–5:00</td>
+                            <td class="ct-event">
+                                <strong>Recessional</strong>
+                                <span class="ct-note">Chorus starts, then after the kiss instrumental intro
+                                    begins.</span>
+                            </td>
+                            <td class="ct-song">I'll Sing About Jesus</td>
+                        </tr>
+                        <tr>
+                            <td class="ct-time">5:00+</td>
+                            <td class="ct-event"><strong>Pictorial</strong></td>
+                            <td class="ct-song">—</td>
+                        </tr>
+
+                    </tbody>
+                </table>
             </div>
 
             <div class="roman-divider reveal">
@@ -3494,6 +3952,15 @@
             const isOpen = item.classList.contains('open');
             document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
             if (!isOpen) item.classList.add('open');
+        }
+
+        function togglePlaylist(header) {
+            const body = header.nextElementSibling;
+            const arrow = header.querySelector('.playlist-arrow');
+            const isOpen = body.classList.contains('open');
+            body.classList.toggle('open', !isOpen);
+            arrow.classList.toggle('open', !isOpen);
+            header.setAttribute('aria-expanded', String(!isOpen));
         }
 
         // ====== FLOATING GOLD PARTICLES ======
