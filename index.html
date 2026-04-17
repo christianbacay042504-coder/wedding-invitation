@@ -383,6 +383,87 @@
             }
         }
 
+        /* ============ FLOATING BOTTOM NAV ============ */
+        #wedding-nav {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9997;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 10px;
+            background: rgba(30, 22, 12, 0.82);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 50px;
+            border: 1px solid rgba(181, 149, 106, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(181, 149, 106, 0.08) inset;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .wn-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            min-width: 56px;
+            position: relative;
+        }
+
+        .wn-item:hover {
+            background: rgba(181, 149, 106, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .wn-item.wn-active {
+            background: var(--gold);
+            box-shadow: 0 2px 12px rgba(181, 149, 106, 0.45);
+        }
+
+        .wn-icon {
+            font-size: 17px;
+            line-height: 1;
+            color: rgba(255, 255, 255, 0.55);
+            transition: color 0.3s;
+        }
+
+        .wn-label {
+            font-family: 'Cinzel', serif;
+            font-size: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .wn-item.wn-active .wn-icon,
+        .wn-item.wn-active .wn-label {
+            color: #fff;
+        }
+
+        @media (max-width: 400px) {
+            .wn-item {
+                padding: 8px 10px;
+                min-width: 46px;
+            }
+
+            .wn-label {
+                font-size: 7px;
+            }
+        }
+
         /* Footer enhanced glow */
         .footer::after {
             content: '';
@@ -3147,7 +3228,7 @@
         </div>
 
         <!-- HERO -->
-        <div class="hero-section page-wrapper">
+        <div class="hero-section page-wrapper" id="nav-home">
             <div class="hero-monogram reveal">J &nbsp;·&nbsp; M</div>
             <div class="hero-laurel reveal reveal-delay-1">
                 <svg width="90" height="30" viewBox="0 0 90 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3189,7 +3270,7 @@
         </div>
 
         <!-- COUNTDOWN -->
-        <div class="countdown-section reveal">
+        <div class="countdown-section reveal" id="nav-details">
             <div class="section-heading">
                 <span class="section-overline">Until We Say</span>
                 <div class="section-title-roman">I Do</div>
@@ -3391,7 +3472,7 @@
         </div><!-- end page-wrapper -->
 
         <!-- LOVE STORY (dark section, full width) -->
-        <div class="love-story-section reveal">
+        <div class="love-story-section reveal" id="nav-story">
             <div class="section-heading">
                 <span class="section-overline" style="color:var(--gold-light)">Love Story</span>
                 <div class="section-script-title" style="color:white; font-size:4rem;">Our Love Story</div>
@@ -3710,7 +3791,7 @@
         </div><!-- end page-wrapper -->
 
         <!-- ENTOURAGE (full width) -->
-        <div class="entourage-section reveal">
+        <div class="entourage-section reveal" id="nav-entourage">
             <div class="section-heading">
                 <span class="section-overline">Those Who Stand Beside Us</span>
                 <div class="section-script-title" style="font-size:4rem; margin-top:4px;">Entourage</div>
@@ -3789,7 +3870,7 @@
                 <p class="ent-sponsors-sub">Sponsors</p>
                 <p class="ent-sponsors-names">
                     <strong>Candle:</strong> Mr. Jasper Domingo &nbsp;·&nbsp; Ms. Ilona Jean Rosal<br>
-                    <strong>Veil:</strong> Mr. Rene Rosal &nbsp;·&nbsp; Ms. Angelica Angus<br>
+                    <strong>Veil:</strong> Mr. Prince Ace Arsenio &nbsp;·&nbsp; Ms. Angelica Angus<br>
                     <strong>Remover:</strong> Mr. John Cyrus Palomar &nbsp;·&nbsp; Ms. Rica Jaine Rosal<br>
                     <strong>Cord:</strong> Mr. Jonathan Japole &nbsp;·&nbsp; Ms. Angel Hernandez<br>
                     <strong>Remover:</strong> Mr. Jhon Vincent Saupan &nbsp;·&nbsp; Ms. Julia Jane Redobante
@@ -3991,11 +4072,11 @@
         </div>
 
         <!-- RESERVE SEAT SECTION -->
-        <div class="reserve-seat-section reveal">
+        <div class="reserve-seat-section reveal" id="nav-rsvp">
             <div class="reserve-seat-inner">
                 <div class="reserve-seat-text">
                     <span>WE&nbsp;RESERVE</span>
-                    <span class="reserve-seat-number" id="reserve-seat-display">2</span>
+                    <span class="reserve-seat-number">1</span>
                     <span class="reserve-seat-label">&nbsp;SEAT/S&nbsp;</span>
                     <span>FOR&nbsp;YOU</span>
                 </div>
@@ -4241,11 +4322,10 @@
             let lastValue = null;
 
             function syncSeat() {
-                const saved = localStorage.getItem('reservedSeats');
-                const val = saved || '2';
-                if (val !== lastValue) {
-                    lastValue = val;
-                    display.textContent = val;
+                const saved = '2'; // hardcoded value
+                if (saved !== lastValue) {
+                    lastValue = saved;
+                    display.textContent = saved;
                     // Pulse animation on update
                     display.style.transition = 'opacity 0.3s';
                     display.style.opacity = '0.3';
@@ -4256,12 +4336,6 @@
             // Initial load
             syncSeat();
 
-            // Listen for storage changes (cross-tab sync)
-            window.addEventListener('storage', function (e) {
-                if (e.key === 'reservedSeats') {
-                    syncSeat();
-                }
-            });
 
             // Poll for changes every 3 seconds (fallback)
             setInterval(syncSeat, 3000);
@@ -4420,6 +4494,74 @@
                 observer.observe(giftGuideSection);
             }
         }
+
+        // ============ FLOATING BOTTOM NAV ============
+        (function () {
+            const navItems = [
+                { id: 'nav-home', icon: '⌂', label: 'Home' },
+                { id: 'nav-details', icon: '◷', label: 'Details' },
+                { id: 'nav-story', icon: '♡', label: 'Story' },
+                { id: 'nav-entourage', icon: '✦', label: 'People' },
+                { id: 'nav-rsvp', icon: '✉', label: 'RSVP' },
+            ];
+
+            function setActive(id) {
+                document.querySelectorAll('.wn-item').forEach(el => el.classList.remove('wn-active'));
+                const el = document.querySelector(`.wn-item[data-target="${id}"]`);
+                if (el) el.classList.add('wn-active');
+            }
+
+            function scrollToSection(id) {
+                const target = document.getElementById(id);
+                if (!target) return;
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setActive(id);
+            }
+
+            // Highlight nav on scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setActive(entry.target.id);
+                    }
+                });
+            }, { rootMargin: '-30% 0px -60% 0px' });
+
+            navItems.forEach(item => {
+                const el = document.getElementById(item.id);
+                if (el) observer.observe(el);
+            });
+
+            // Build nav HTML (wait for page-2 to be ready)
+            const nav = document.createElement('nav');
+            nav.id = 'wedding-nav';
+            nav.innerHTML = navItems.map(item => `
+                <button class="wn-item" data-target="${item.id}" aria-label="${item.label}">
+                    <span class="wn-icon">${item.icon}</span>
+                    <span class="wn-label">${item.label}</span>
+                </button>
+            `).join('');
+            document.body.appendChild(nav);
+
+            nav.querySelectorAll('.wn-item').forEach(btn => {
+                btn.addEventListener('click', () => scrollToSection(btn.dataset.target));
+            });
+
+            // Set Home active by default
+            setActive('nav-home');
+
+            // Show nav when openInvitation() is called — patch after all scripts load
+            window.addEventListener('load', function () {
+                const _origOpen = window.openInvitation;
+                window.openInvitation = function () {
+                    if (_origOpen) _origOpen.apply(this, arguments);
+                    setTimeout(() => {
+                        nav.style.opacity = '1';
+                        nav.style.pointerEvents = 'all';
+                    }, 1500);
+                };
+            });
+        })();
 
         // Background Music Controls Event Listener
         (function () {
