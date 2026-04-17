@@ -4123,6 +4123,7 @@
                 page1.style.display = 'none';
                 window.scrollTo({ top: 0 });
                 initReveal();
+                initTypingAnimation();
             }, 1400);
 
             // Show music controls & start bg music
@@ -4220,6 +4221,10 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
+                        if (entry.target.classList.contains('gift-guide-section')) {
+                            typeWriter();
+                            observer.unobserve(entry.target);
+                        }
                     }
                 });
             }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
@@ -4458,7 +4463,7 @@
 
         // Typing Animation for Gift Guide
         function typeWriter() {
-            const text = "With all that we have we are truly blessed. Your presence and prayer are that we request, but if you are thinking of giving a gift, to help us on our way a <strong>monetary</strong> gift would be wonderful, or if you prefer to purchase a gift, feel free to surprise us on your own way.";
+            const text = "WITH ALL THAT WE HAVE WE ARE TRULY BLESSED. YOUR PRESENCE AND PRAYER ARE THAT WE REQUEST, BUT IF YOU ARE THINKING OF GIVING A GIFT, TO HELP US ON OUR WAY A <strong>MONETARY</strong> OR IF YOU PREFER TO PURCHASE A GIFT, FEEL FREE TO SURPRISE AS ON YOUR OWN WAY.";
             const element = document.getElementById('typing-text');
             if (!element) return;
 
@@ -4469,7 +4474,7 @@
                 if (index < text.length) {
                     element.innerHTML = text.substring(0, index + 1) + '<span class="typing-cursor"></span>';
                     index++;
-                    setTimeout(type, 30);
+                    setTimeout(type, 10);
                 } else {
                     element.innerHTML = text;
                 }
@@ -4484,12 +4489,12 @@
             if (giftGuideSection) {
                 const observer = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) {
+                        if (entry.isIntersecting && entry.target.classList.contains('visible')) {
                             typeWriter();
                             observer.unobserve(entry.target);
                         }
                     });
-                }, { threshold: 0.3 });
+                }, { threshold: 0.1 });
 
                 observer.observe(giftGuideSection);
             }
@@ -4572,10 +4577,7 @@
             }
         })();
 
-        // Initialize animations
-        document.addEventListener('DOMContentLoaded', function () {
-            initTypingAnimation();
-        });
+        // initTypingAnimation is called inside openInvitation() after reveal is set up
     </script>
 </body>
 
